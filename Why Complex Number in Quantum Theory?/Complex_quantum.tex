@@ -1,0 +1,641 @@
+\documentclass{article}
+\usepackage{geometry}
+
+\geometry{left=2.5cm, right=2.5cm, top=3cm, bottom=3cm}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx,wrapfig,lipsum}
+\usepackage{pgfplots}
+\usetikzlibrary{calc,angles,quotes}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usepackage{xepersian}
+\usepackage{multirow}
+\usepackage{lmodern} 
+\usepackage{fancyhdr}
+\usepackage{longtable}
+\usepackage{rotating}
+\usepackage{pdflscape} 
+\usepackage{tabularx} 
+\usepackage{physics}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{xltabular}
+
+\settextfont[Scale=1.2]{XB Niloofar}
+\setdigitfont[Scale=1.2]{XB Niloofar}
+\setlatintextfont[Scale=1.2]{XB Niloofar}
+
+\providecommand{\mymathbb}[1]{\mathbb{#1}}
+\providecommand{\idmatrix}{\mathbb{I}}
+\newcommand{\stochasticmatrix}{\Phi}
+\newcommand{\dynop}{D} 
+\newcommand{\timeevop}{U}
+\newcommand{\given}{|} 
+
+
+\begin{document}
+\title{شرحی فروکاهنده از نظریه کوانتوم و دلالت‌های آن برای اعداد مختلط}
+\author{\lr{Jacob A. Barandes}\thanks{گروه‌های فلسفه و فیزیک، دانشگاه هاروارد، کمبریج، ماساچوست 02138؛ jacob\_barandes@harvard.edu; شناسه ارکید: 0000-0002-3740-4418}
+}
+\date{\today}
+
+\maketitle
+
+\begin{abstract}
+چرا نظریه کوانتوم به اعداد مختلط نیاز دارد؟ با هدف پاسخگویی به این پرسش، این مقاله استدلال می‌کند که فرمالیسم معمول فضای هیلبرت، حالت خاصی از روش عمومی جاسازی‌های مارکوفی \lr{(Markovian embeddings)} است. سپس این مقاله «تعبیر تقسیم‌ناپذیر» از نظریه کوانتوم را شرح می‌دهد، که بر اساس آن یک سیستم کوانتومی می‌تواند به عنوان یک فرایند تصادفی «تقسیم‌ناپذیر» در نظر گرفته شود که در یک فضای پیکربندی سنتی \lr{(old-fashioned)} جریان می‌یابد، در حالی که توابع موج و دیگر اجزای عجیب و غریب فضای هیلبرت از داشتن شأن هستی‌شناختی\lr{ (ontological status) } تنزل داده شده‌اند. در نهایت مشخص می‌شود که اعداد مختلط برای اطمینان از اینکه فرمالیسم فضای هیلبرت واقعاً یک جاسازی مارکوفی باشد، ضروری هستند.
+\end{abstract}
+
+
+\begin{center}
+\global\long\def\quote#1{``#1"}%
+\global\long\def\apostrophe{\textrm{'}}%
+\global\long\def\slot{\phantom{x}}%
+\global\long\def\eval#1{\left.#1\right\vert }%
+\global\long\def\keyeq#1{\boxed{#1}}%
+\global\long\def\importanteq#1{\boxed{\boxed{#1}}}%
+\global\long\def\given{\vert}%
+\global\long\def\mapping#1#2#3{#1:#2\to#3}%
+\global\long\def\composition{\circ}%
+\global\long\def\set#1{\left\{  #1\right\}  }%
+\global\long\def\setindexed#1#2{\left\{  #1\right\}  _{#2}}%
+
+\global\long\def\setbuild#1#2{\left\{  \left.\!#1\,\right|\,#2\right\}  }%
+\global\long\def\complem{\mathrm{c}}%
+
+\global\long\def\union{\cup}%
+\global\long\def\intersection{\cap}%
+\global\long\def\cartesianprod{\times}%
+\global\long\def\disjointunion{\sqcup}%
+
+\global\long\def\isomorphic{\cong}%
+
+\global\long\def\setsize#1{\left|#1\right|}%
+\global\long\def\defeq{\equiv}%
+\global\long\def\conj{\ast}%
+\global\long\def\overconj#1{\overline{#1}}%
+\global\long\def\re{\mathrm{Re\,}}%
+\global\long\def\im{\mathrm{Im\,}}%
+
+\global\long\def\transp{\mathrm{T}}%
+\global\long\def\tr{\mathrm{tr}}%
+\global\long\def\adj{\dagger}%
+\global\long\def\diag#1{\mathrm{diag}\left(#1\right)}%
+\global\long\def\dotprod{\cdot}%
+\global\long\def\crossprod{\times}%
+\global\long\def\Probability#1{\mathrm{Prob}\left(#1\right)}%
+\global\long\def\Amplitude#1{\mathrm{Amp}\left(#1\right)}%
+\global\long\def\cov{\mathrm{cov}}%
+\global\long\def\corr{\mathrm{corr}}%
+
+\global\long\def\absval#1{\left\vert #1\right\vert }%
+\global\long\def\expectval#1{\left\langle #1\right\rangle }%
+\global\long\def\op#1{\hat{#1}}%
+
+\global\long\def\bra#1{\left\langle #1\right|}%
+\global\long\def\ket#1{\left|#1\right\rangle }%
+\global\long\def\braket#1#2{\left\langle \left.\!#1\right|#2\right\rangle }%
+
+\global\long\def\parens#1{(#1)}%
+\global\long\def\bigparens#1{\big(#1\big)}%
+\global\long\def\Bigparens#1{\Big(#1\Big)}%
+\global\long\def\biggparens#1{\bigg(#1\bigg)}%
+\global\long\def\Biggparens#1{\Bigg(#1\Bigg)}%
+\global\long\def\bracks#1{[#1]}%
+\global\long\def\bigbracks#1{\big[#1\big]}%
+\global\long\def\Bigbracks#1{\Big[#1\Big]}%
+\global\long\def\biggbracks#1{\bigg[#1\bigg]}%
+\global\long\def\Biggbracks#1{\Bigg[#1\Bigg]}%
+\global\long\def\curlies#1{\{#1\}}%
+\global\long\def\bigcurlies#1{\big\{#1\big\}}%
+\global\long\def\Bigcurlies#1{\Big\{#1\Big\}}%
+\global\long\def\biggcurlies#1{\bigg\{#1\bigg\}}%
+\global\long\def\Biggcurlies#1{\Bigg\{#1\Bigg\}}%
+\global\long\def\verts#1{\vert#1\vert}%
+\global\long\def\bigverts#1{\big\vert#1\big\vert}%
+\global\long\def\Bigverts#1{\Big\vert#1\Big\vert}%
+\global\long\def\biggverts#1{\bigg\vert#1\bigg\vert}%
+\global\long\def\Biggverts#1{\Bigg\vert#1\Bigg\vert}%
+\global\long\def\Verts#1{\Vert#1\Vert}%
+\global\long\def\bigVerts#1{\big\Vert#1\big\Vert}%
+\global\long\def\BigVerts#1{\Big\Vert#1\Big\Vert}%
+\global\long\def\biggVerts#1{\bigg\Vert#1\bigg\Vert}%
+\global\long\def\BiggVerts#1{\Bigg\Vert#1\Bigg\Vert}%
+\global\long\def\ket#1{\vert#1\rangle}%
+\global\long\def\bigket#1{\big\vert#1\big\rangle}%
+\global\long\def\Bigket#1{\Big\vert#1\Big\rangle}%
+\global\long\def\biggket#1{\bigg\vert#1\bigg\rangle}%
+\global\long\def\Biggket#1{\Bigg\vert#1\Bigg\rangle}%
+\global\long\def\bra#1{\langle#1\vert}%
+\global\long\def\bigbra#1{\big\langle#1\big\vert}%
+\global\long\def\Bigbra#1{\Big\langle#1\Big\vert}%
+\global\long\def\biggbra#1{\bigg\langle#1\bigg\vert}%
+\global\long\def\Biggbra#1{\Bigg\langle#1\Bigg\vert}%
+\global\long\def\braket#1#2{\langle#1\vert#2\rangle}%
+\global\long\def\bigbraket#1#2{\big\langle#1\big\vert#2\big\rangle}%
+\global\long\def\Bigbraket#1#2{\Big\langle#1\Big\vert#2\Big\rangle}%
+\global\long\def\biggbraket#1#2{\bigg\langle#1\bigg\vert#2\bigg\rangle}%
+\global\long\def\Biggbraket#1#2{\Bigg\langle#1\Bigg\vert#2\Bigg\rangle}%
+\global\long\def\angs#1{\langle#1\rangle}%
+\global\long\def\bigangs#1{\big\langle#1\big\rangle}%
+\global\long\def\Bigangs#1{\Big\langle#1\Big\rangle}%
+\global\long\def\biggangs#1{\bigg\langle#1\bigg\rangle}%
+\global\long\def\Biggangs#1{\Bigg\langle#1\Bigg\rangle}%
+
+\global\long\def\vec#1{\mathbf{#1}}%
+\global\long\def\vecgreek#1{\boldsymbol{#1}}%
+\global\long\def\idmatrix{\mymathbb{1}}%
+\global\long\def\projector{P}%
+\global\long\def\permutationmatrix{\Sigma}%
+\global\long\def\densitymatrix{\rho}%
+\global\long\def\krausmatrix{K}%
+\global\long\def\stochasticmatrix{\Gamma}%
+\global\long\def\lindbladmatrix{L}%
+\global\long\def\dynop{\Theta}%
+\global\long\def\timeevop{U}%
+\global\long\def\hadamardprod{\odot}%
+\global\long\def\tensorprod{\otimes}%
+
+\global\long\def\inprod#1#2{\left\langle #1,#2\right\rangle }%
+\global\long\def\normket#1{\left\Vert #1\right\Vert }%
+\global\long\def\hilbspace{\mathcal{H}}%
+\global\long\def\samplespace{\Omega}%
+\global\long\def\configspace{\mathcal{C}}%
+\global\long\def\phasespace{\mathcal{P}}%
+\global\long\def\spectrum{\sigma}%
+\global\long\def\restrict#1#2{\left.#1\right\vert _{#2}}%
+\global\long\def\from{\leftarrow}%
+\global\long\def\statemap{\omega}%
+\global\long\def\degangle#1{#1^{\circ}}%
+\global\long\def\trivialvector{\tilde{v}}%
+\global\long\def\eqsbrace#1{\left.#1\qquad\right\}  }%
+\global\long\def\matf#1{\mathbf{#1}}%
+\par\end{center}
+
+
+
+\section{مقدمه\label{sec:Introduction}}
+
+یکی از مرموزترین ویژگی‌های نظریه کوانتوم، وابستگی ظاهری آن به اعداد مختلط است که به صراحت در اصول موضوعه دیراک-فون‌نویمانِ\lr{ (Dirac-von Neumann)}  نظریه استاندارد (دیراک ۱۹۳۰، فون‌نویمان ۱۹۳۲) گنجانده شده‌اند\nocite{Dirac:1930pofm,vonNeumann:1932mgdq}. استدلال‌های گوناگونی در ادبیات پژوهشی وجود دارد که هدفشان اثبات ضرورت اعداد مختلط در نظریه کوانتوم از طریق سناریوهای مختلف اندازه‌گیری است (رنو و همکاران ۲۰۲۱)\nocite{RenouTrilloWeilenmannThinhTavakoliGisinAcinNavascues:1999qmoarhs}. این مقاله رویکردی متفاوت و بنیادی‌تر را اتخاذ می‌کند.
+
+این مقاله پس از مرور اعداد مختلط در بخش~\ref{sec:The-Complex-Numbers}، به بررسی جاسازی‌های مارکوفی\lr{ (Markovian embeddings)} برای فرآیندهای غیرمارکوفی در بخش~\ref{sec:Markovian-Embeddings} می‌پردازد. به یاد آورید که یک فرآیند را غیرمارکوفی می‌نامند اگر قوانین دینامیکی آن نه تنها به پیکربندی سیستم در لحظه کنونی زمان، بلکه به پیکربندی‌های گذشته نیز وابسته باشد. یک جاسازی مارکوفی از یک فرآیند غیرمارکوفی، تکنیکی برای تغییر بازنمایی‌های ریاضی است به طوری که فرآیند به گونه‌ای به نظر برسد که گویی تنها به یک مفهومِ به‌طور مناسب بازتعریف‌شده از یک «حالت» فقط در زمان حال وابسته است. بخش~\ref{sec:The-Strocchi-Heslot-Formulation} فرمول‌بندی استروکی-هسلوت (Strocchi-Heslot) از یک سیستم کوانتومی به عنوان مجموعه‌ای از نوسانگرهای هارمونیک کلاسیک را مرور می‌کند (استروکی ۱۹۶۶، هسلوت ۱۹۸۵)\nocite{Strocchi:1966ccqm,Heslot:1985qmaact}، و استدلال می‌کند که اندازه نامتناهی فضای حالتِ حاصل از مدل استروکی-هسلوت، انگیزه‌ی خوبی برای این تفکر ایجاد می‌کند که فرمالیسم فضای هیلبرت در نظریه کوانتوم، در واقع جاسازی مارکوفیِ فرآیندهای شدیداً غیرمارکوفی است. بخش~\ref{sec:Indivisible-Stochastic-Processes} استدلال می‌کند که این فرآیندهای شدیداً غیرمارکوفی باید به عنوان فرآیندهای تصادفی «ناقسیم» (indivisible) درک شوند، که هر کدام نماینده‌ی یک کلاس هم‌ارزی کامل از فرآیندهای غیرمارکوفی هستند که بر سرِ مجموعه‌ای تنک (sparse) از قوانین دینامیکی شامل احتمالات شرطی مرتبه اول برای جفت‌زمان‌های خاص توافق دارند (بارندس ۲۰۲۵الف، ۲۰۲۵ب، ۲۰۲۳)\nocite{Barandes:2025tsqc,Barandes:2025qsaisp,Barandes:2023tsqt}. سپس این مقاله تناظر تصادفی-کوانتومی را مرور می‌کند، که بر هم‌ارزی میان فرآیندهای تصادفی ناقسیم و سیستم‌های کوانتومی تأکید دارد (همان منبع)، و در این مسیر نشان می‌دهد که اعداد مختلط برای تضمین اینکه فرمالیسم فضای هیلبرت واقعاً یک جاسازی مارکوفی را فراهم کند، مورد نیاز هستند. بخش~\ref{sec:Conclusion} با خلاصه‌ای از مطالب و جهت‌گیری‌هایی برای پژوهش‌های آینده به پایان می‌رسد.
+
+\section{اعداد مختلط\label{sec:The-Complex-Numbers}}
+
+به بیان تقریبی، یک جبر (algebra) یک فضای برداری است، با همان قواعد معمول برای جمع و ضرب در اسکالرها و همچنین یک همانی جمعی $0$، به همراه یک قاعده ضرب که دو عنصر از جبر را می‌گیرد و عنصر دیگری از جبر را بازمی‌گرداند. یک جبر تقسیم نرم‌دار \lr{(normed division algebra)} دارای یک نرم $\verts q\geq0$ است و برای هر عنصر غیرصفر $q\ne0$ شامل یک وارون ضربی $1/q$ می‌باشد، به طوری که تقسیم برای تمام مقسوم‌علیه‌های غیرصفر تعریف شده است.
+
+یک مثال کلیدی، مجموعه اعداد حقیقی $\mathbb{R}$ است که یک جبر تقسیم نرم‌دار یک‌بعدی را با نرم $\verts x\defeq\sqrt{x^{2}}$ تشکیل می‌دهند.
+
+همانطور که از ساختار کیلی-دیکسون (دیکسون ۱۹۱۹)\nocite{Dickson:1919oqatgathotest} به همراه قضیه هورویتز (هورویتز ۱۹۲۲)\nocite{Hurwitz:1922udkdqf} نتیجه می‌شود، یک جبر تقسیم نرم‌دار دوبعدیِ یکتا وجود دارد که اعداد مختلط $\mathbb{C}$ نامیده می‌شود. عناصر $\mathbb{C}$ را می‌توان با زوج‌های مرتب $\left(a,b\right)$ از اعداد حقیقی $a$ و $b$، به همراه قواعد حسابی زیر شناسایی کرد:
+\begin{itemize}
+\item جمع: $\left(a,b\right)+\left(c,d\right)\defeq\left(a+c,b+d\right)$.
+\item ضرب در اسکالرها: $c\left(a,b\right)\defeq\left(ca,cb\right)$
+برای هر عدد حقیقی $c$.
+\item ضرب: $\left(a,b\right)\left(c,d\right)\defeq\left(ac-bd,ad+bc\right)$.
+\end{itemize}
+توجه کنید که جمع و ضرب در اسکالرها به صورت مؤلفه‌به-مؤلفه \lr{(entry-wise)} انجام می‌شوند، در حالی که ضرب اعداد مختلط در یکدیگر فرمی بسیار کمتر بدیهی به خود می‌گیرد. برای اینکه ببینید چرا ضرب مؤلفه‌به-مؤلفه در ایجاد یک جبر تقسیم شکست می‌خورد، دقت کنید که $\left(a,0\right)$ همانی جمعی $\left(0,0\right)$ نیست، و با این حال، تحت ضرب مؤلفه‌به-مؤلفه فاقد وارون ضربی است؛ زیرا در آن صورت $\left(1,1\right)$ همانی ضربی خواهد بود و هیچ زوج مرتب $\left(c,d\right)$ وجود ندارد که تحت ضرب مؤلفه‌به-مؤلفه داشته باشیم $\left(a,0\right)\left(c,d\right)=\left(1,1\right)$.
+
+اعداد مختلط همچنین با چندین عمل مهم دیگر همراه هستند:
+\begin{itemize}
+\item مزدوج مختلط: $\left(a,b\right)^{\conj}\defeq\overconj{\left(a,b\right)}\defeq\left(a,-b\right)$.
+\item نرم یا قدرمطلق: $\verts{\left(a,b\right)}\defeq\sqrt{\left(a,b\right)^{\conj}\left(a,b\right)}=\sqrt{a^{2}+b^{2}}$.
+\item بخش حقیقی: $\re\left(a,b\right)\defeq a$.
+\item بخش موهومی: $\im\left(a,b\right)\defeq b$.
+\end{itemize}
+
+هر مجموعه‌ای از نمادهای ریاضی که در تناظر یک‌به-یک با این زوج‌های مرتب باشند و خواص یکسانی را بروز دهند، یک نمایش (representation) از اعداد مختلط ارائه می‌دهند. برای ساخت آشناترین نمایش، فرض کنید:
+\begin{equation}
+\quote 1\defeq\left(1,0\right),\quad\quote i\defeq\left(0,1\right).\label{eq:Def1AndiForSimpleRepresentationComplexNumbers}
+\end{equation}
+ آنگاه:
+\begin{equation}
+z\defeq x+iy\defeq1x+iy=\left(1,0\right)x+\left(0,1\right)y=\left(x,y\right).\label{eq:DefGeneralComplexNumberFromOrderedPairs}
+\end{equation}
+ شخص دارد:
+\begin{equation}
+i^{2}=-1,\label{eq:iSquaredEqNegOne}
+\end{equation}
+ بنابراین می‌توان به صورت صوری فرمول رازآلود زیر را نوشت:
+\begin{equation}
+\quote{i=\sqrt{-1}.}\label{eq:iEqSqrtNegOne}
+\end{equation}
+ با این حال، هیچ چیزِ به طور خاص مرموزی در اینجا در جریان نیست—در پشت صحنه، تنها زوج‌های مرتبی از اعداد حقیقی با یک قاعده ضرب خاص وجود دارند.
+
+از سری تایلور برای تابع نمایی $e^{x}$، که برای $x\mapsto i\theta$ اعمال شده است، مشاهده می‌شود که:
+\begin{align*}
+e^{i\theta} & =1+i\theta+\frac{1}{2}\left(i\theta\right)^{2}+\frac{1}{6}\left(i\theta\right)^{3}+\cdots\\
+ & =1+i\theta-\frac{1}{2}\theta^{2}-i\frac{1}{6}\theta^{3}\pm\cdots\\
+ & =\left(1-\frac{1}{2}\theta^{2}\pm\cdots\right)+i\left(\theta-\frac{1}{6}\theta^{3}\pm\cdots\right).
+\end{align*}
+ با شناسایی دو مقدار داخل پرانتزها با سری‌های تایلور مربوط به توابع کسینوس و سینوس، شخص به فرمول اویلر می‌رسد:
+\begin{equation}
+e^{i\theta}=\cos\theta+i\sin\theta.\label{eq:EulerFormula}
+\end{equation}
+ به عنوان یک حالت خاص، برای $\theta=\pi$، این نتیجه منجر به اتحاد مشهور اویلر می‌شود،
+\begin{equation}
+e^{i\pi}+1=0,\label{eq:EulerIdentity}
+\end{equation}
+ که ثابت‌های بنیادی $0$، $1$، $e$، $i$ و $\pi$ را به همراه عملگرهای ریاضی پایه‌ایِ جمع $+$ و تساوی $=$ متحد می‌کند.
+
+از مثلثات، برای یک مثلث قائم‌الزاویه با زاویه بازشدگی $\theta$، ضلع مجاور با طول $x$، ضلع مقابل با طول $y$، و وتر با طول $r$، روابط پایه‌ای زیر برقرارند:
+\begin{equation}
+\begin{aligned}x & =r\cos\theta,\\
+y & =r\sin\theta,\\
+r & =\sqrt{x^{2}+y^{2}}.
+\end{aligned}
+\label{eq:TrigRelationshipsForComplexNumber}
+\end{equation}
+ این فرمول‌ها فرم قطبی یک عدد مختلط $z$ را به دست می‌دهند:
+\begin{equation}
+z=x+iy=r\left(\cos\theta+i\sin\theta\right)=re^{i\theta}.\label{eq:PolarFormComplexNumber}
+\end{equation}
+ در اینجا $r=\verts z$ نرم یا قدرمطلق عدد مختلط است، و $e^{i\theta}$ فاکتور فاز، یا به اختصار فاز نامیده می‌شود.
+فازها دارای قدرمطلق واحد هستند:
+\begin{equation}
+\verts{e^{i\theta}}=1.\label{eq:PhaseUnitMod}
+\end{equation}
+ گرفتن قدرمطلق از یک عدد مختلط عمومی $z=re^{i\theta}$، اطلاعات فاز آن $e^{i\theta}$ را پاک می‌کند:
+\begin{equation}
+\verts z=\verts{re^{i\theta}}=r.\label{eq:ModGeneralComplexNumberPolar}
+\end{equation}
+
+نمایش‌های دیگری از اعداد مختلط $\mathbb{C}$ وجود دارند.
+یک مثال جالب، نمایش «حقیقی» $2\times2$ است (برای مثال نگاه کنید به میریم ۱۹۹۹)\nocite{Myrheim:1999qmoarhs}،
+که در آن جفت ماتریس‌های $2\times2$ زیر معرفی می‌شوند که هر دو تنها دارای درایه‌هایی با مقادیر حقیقی هستند:
+\begin{equation}
+\matf 1\defeq\begin{pmatrix}1 & 0\\
+0 & 1
+\end{pmatrix},\quad\matf I\defeq\begin{pmatrix}0 & -1\\
+1 & 0
+\end{pmatrix}.\label{eq:Real2by2MatricesFor1Andi}
+\end{equation}
+ این ماتریس‌ها در رابطه زیر صدق می‌کنند:
+\begin{equation}
+\matf I^{2}=-\matf 1.\label{eq:Real2by2iSqEqNegOne}
+\end{equation}
+ نتیجه می‌شود که هر ترکیب خطی از دو ماتریس $\matf 1$ و $\matf I$ با ضرایب حقیقی‌مقدار $x$ و $y$، یک ماتریس $2\times2$ با فرم خاص زیر را تعریف می‌کند:
+\begin{equation}
+\matf Z\defeq\matf 1x+\matf Iy=\begin{pmatrix}x & -y\\
+y & x
+\end{pmatrix}.\label{eq:Real2by2ComplexNumberAsMatrix}
+\end{equation}
+ می‌توان بررسی کرد که ماتریس‌های با این فرم دقیقاً رفتار حسابی یکسانی با اعداد مختلط دارند، بنابراین آن‌ها در واقع یک نمایش ریاضی جایگزین از $\mathbb{C}$ را فراهم می‌کنند. علاوه بر این،
+گرفتن ترانهاده‌ی $\matf Z$ دقیقاً مزدوج‌گیری مختلط را پیاده‌سازی می‌کند،
+\begin{equation}
+\matf Z^{\transp}=\matf 1x-\matf Iy,\label{eq:Real2by2ComplexNumberTransposeAsConjugate}
+\end{equation}
+ گرفتن اثر (trace) دو برابرِ بخش حقیقی را می‌دهد،
+\begin{equation}
+\tr\left(\matf Z\right)=2x,\label{eq:Real2by2ComplexNumberTraceAsTwiceRealPart}
+\end{equation}
+ و گرفتن دترمینان منجر به مربعِ قدرمطلق می‌شود،
+\begin{equation}
+\det\left(\matf Z\right)=x^{2}+y^{2}.\label{eq:Real2by2ComplexNumberDeterminantAsModSquared}
+\end{equation}
+ به علاوه، به یاد آورید که ماتریسی $2\times2$ که دوران‌هایی با زاویه $\theta$ را پیاده‌سازی می‌کند، به صورت زیر داده می‌شود:
+\begin{equation}
+\operatorname{Rot}\left(\theta\right)=\begin{pmatrix}\cos\theta & -\sin\theta\\
+\sin\theta & \cos\theta
+\end{pmatrix},\label{eq:2by2RotationMatrix}
+\end{equation}
+و مشاهده کنید که می‌توان سمت راست را به صورت زیر تجزیه کرد:
+\[
+\begin{pmatrix}\cos\theta & -\sin\theta\\
+\sin\theta & \cos\theta
+\end{pmatrix}=\begin{pmatrix}1 & 0\\
+0 & 1
+\end{pmatrix}\cos\theta+\begin{pmatrix}0 & -1\\
+1 & 0
+\end{pmatrix}\sin\theta.
+\]
+ یعنی،
+\begin{equation}
+\operatorname{Rot}\left(\theta\right)=\matf 1\cos\theta+\matf I\sin\theta=e^{\matf I\theta},\label{eq:2by2RotationMatrixAsReal2by2ComplexNumber}
+\end{equation}
+ که در آن نماییِ یک ماتریس به طور صوری توسط بسط تایلور آن تعریف می‌شود. این نتیجه صرفاً نمایش «حقیقی» $2\times2$ از فرمول اویلر \eqref{eq:EulerFormula} است.
+
+ماتریس ۲ در ۲ $\matf I$ در اینجا یک ساختار مختلط خطی نامیده می‌شود. توجه کنید که این شامل هیچ‌گونه ظاهری از یک $i$ «تحت‌اللفظی» نیست، بلکه تنها شامل اعداد حقیقی است. با این حال، اعداد مختلط، به عنوان یک ساختار جبری، همچنان حضور دارند. اعداد مختلط اساساً یک ساختار جبری هستند، بنابراین هر ساختار جبری ایزومورف (یکریخت) با $\mathbb{C}$ در واقع همان $\mathbb{C}$ است.\footnote{در مقابل، نویسندگان رنو و همکاران (۲۰۲۱)\nocite{RenouTrilloWeilenmannThinhTavakoliGisinAcinNavascues:1999qmoarhs}
+استدلال می‌کنند که جایگزینی $i$ با ماتریس $2\times2$ $\matf I$ به منزله حذف اعداد مختلط از نظریه کوانتوم است و منجر به یک نظریه حقیقتاً رئال (حقیقی) می‌شود. این استدلال صحیح نیست—نظریه آن‌ها همچنان شامل اعداد مختلط است، زیرا نظریه آن‌ها همچنان شامل عوامل $\matf I$ با تمام خواص جبری معمولش می‌باشد.
+علاوه بر این، هنگام جایگزینی عوامل $i$ با $\matf I$، از اتحادهای ریاضی سرراست نتیجه می‌شود که برای به دست آوردن یک فرمول‌بندی معادل با نظریه کوانتوم استاندارد، باید از برخی مفروضات درباره فاکتورپذیری تانسوری دست کشید. نویسندگان رنو و همکاران (۲۰۲۱) تصمیم می‌گیرند که از آن مفروضات دست نکشند، و نسبتاً بدون تعجب، در نهایت می‌یابند که نظریه همچنان-مختلطِ آن‌ها با برخی از پیش‌بینی‌های نظریه کوانتوم استاندارد ناسازگار است. مشخص نیست که نشان دادن عدم هم‌ارزی میان نظریه کوانتوم استاندارد و یک نظریه جدیدِ به‌طور دلبخواه تعریف‌شده که همچنان شامل اعداد مختلط است، چقدر اهمیت دارد.}
+
+با بازگشت به نمایشی انتزاعی‌تر از اعداد مختلط به عنوان عباراتی به فرم $z=x+iy$، معرفی عملگر $K$ که مزدوج‌گیری مختلط را پیاده‌سازی می‌کند، مفید واقع خواهد شد:
+\begin{equation}
+Kz\defeq\overconj zK.\label{eq:DefComplexConjOperator}
+\end{equation}
+ بنا بر ساختار، $K$ با $i$ پادجابه‌جا (anticommute) می‌شود:
+\begin{equation}
+Ki=-iK.\label{eq:ComplexConjOpAnticommutesWithi}
+\end{equation}
+ نتیجه می‌شود که نمادهای $i$، $K$ و $iK$ یک جبر کلیفورد معروف به شبه-کواترنیون‌ها (استوکلبرگ ۱۹۶۰)\nocite{Stueckelberg:1960qtirhs} را تولید می‌کنند:
+\begin{equation}
+-i^{2}=K^{2}=\left(iK\right)^{2}=\left(i\right)\left(K\right)\left(iK\right)=1.\label{eq:ElementaryPseudoQuaternionsAlgebra}
+\end{equation}
+ در نمایش ماتریسی «حقیقی» $2\times2$ \eqref{eq:Real2by2ComplexNumberAsMatrix}، عملگر $K$ توسط یک ماتریس $2\times2$ با درایه‌های حقیقی‌مقدار نمایش داده می‌شود که اتفاقاً با اولین ماتریس سیگمای پائولی $\sigma_{x}$ منطبق است:
+\begin{equation}
+\matf K\defeq\begin{pmatrix}0 & 1\\
+1 & 0
+\end{pmatrix}=\sigma_{x}.\label{eq:ComplexConjOpAsPauliSigmaMatrix}
+\end{equation}
+
+\section{جاسازی‌های مارکوفی\label{sec:Markovian-Embeddings}}
+
+یک فرآیند مارکوفی یک سیستم دینامیکی است که در آن قوانینی که پیکربندی‌های آینده را انتخاب می‌کنند، چه به صورت قطعی و چه احتمالی، تنها به پیکربندی کنونی سیستم وابسته هستند و نه به پیکربندی‌های پیشین در گذشته. بررسی روش‌هایی که می‌توان یک سیستم غیرمارکوفی را با تغییر مناسبِ بازنمایی ریاضی به صورت مارکوفی جلوه داد، ثمر‌بخش خواهد بود.
+
+به عنوان یک مثال ساده‌ی اولیه، یک سیستم \emph{گسسته} را در نظر بگیرید که سینماتیک آن شامل پیکربندی‌های زیر است:
+\begin{equation}
+x=1,2,3,\dots,N\label{eq:2ndOrderDiscreteSystemConfigurations}
+\end{equation}
+ که یک فضای پیکربندی $\configspace$ را تشکیل می‌دهند. در سطح دینامیک، فرض کنید که سیستم دارای یک قانون قطعی مرتبه دوم است:
+\begin{equation}
+x\left(t+1\right)=F\left(x\left(t\right),x\left(t-1\right)\right),\label{eq:2ndOrderDiscreteSystemLaw}
+\end{equation}
+ که در آن $F$ یک تابع داده‌شده با دو آرگومان است. این قانون دینامیکی را غیرمارکوفی از مرتبه دوم می‌نامند زیرا انتخاب پیکربندی سیستم در زمان بعدی $t+1$ نیازمند تعیین پیکربندی سیستم نه تنها در زمان حال $t$، بلکه همچنین در زمان قبلی $t-1$ است. این مدل به طور کلی می‌تواند به عنوان نسخه‌ای گسسته از یک سیستم ساده با یک درجه آزادی در مکانیک نیوتنی درک شود.
+
+آنگاه همیشه می‌توان معاوضه‌ی نومولوژی-هستی‌شناسی\lr{ (nomology-ontology trade-off)} زیر را انجام داد: قانون دینامیکی مدل، یا نومولوژی، را به مرتبه اول یا مارکوفی ساده کرد، به بهای پیچیده‌تر کردن فضای پیکربندی مدل، یعنی هستی‌شناسی آن. طبق سینماتیک جدید، «حالت‌ها» اکنون زوج‌های مرتب $\left(x,y\right)$ هستند که یک «فضای حالت» $\configspace\cartesianprod\configspace$ را تشکیل می‌دهند، و دینامیک جدید توسط \emph{جفت} معادلات \emph{مرتبه اول} زیر داده می‌شود:
+\begin{equation}
+\begin{aligned}x\left(t+1\right) & =F\left(x\left(t\right),y\left(t\right)\right),\\
+y\left(t+1\right) & =x\left(t\right).
+\end{aligned}
+\label{eq:FirstOrderMarkovianEmbeddingDiscrete}
+\end{equation}
+ بنابراین شخص به یک جاسازی مارکوفی از مدل غیرمارکوفی و مرتبه دوم اولیه می‌رسد.
+
+این جاسازی مارکوفی همچنین دارای مجموعه‌ای نوظهور از تبدیلات است که مجازند متغیرهای $x$ و $y$ را برای راحتی با هم ترکیب کنند، مادامی که این تبدیلات مستلزم از دست دادن هیچ اطلاعاتی نباشند. برای مثال، می‌توان $X\defeq x+y$ و $Y\defeq x-y$ را تعریف کرد، که در این صورت در معادلات زیر صدق می‌کنند:
+\begin{align}
+X\left(t+1\right) & =F\left(\frac{X\left(t\right)+Y\left(t\right)}{2},\frac{X\left(t\right)-Y\left(t\right)}{2}\right)+\frac{X\left(t\right)+Y\left(t\right)}{2},\label{eq:FirstOrderMarkovianEmbeddingDiscreteAltVariables}\\
+Y\left(t+1\right) & =F\left(\frac{X\left(t\right)+Y\left(t\right)}{2},\frac{X\left(t\right)-Y\left(t\right)}{2}\right)-\frac{X\left(t\right)+Y\left(t\right)}{2}.\nonumber 
+\end{align}
+ پس از حل این معادلات جایگزین مرتبه اول، می‌توان فوراً راه‌حل‌های معادلات اصلی را به صورت $x\left(t\right)=\left(X\left(t\right)+Y\left(t\right)\right)/2$ و $y\left(t\right)=\left(X\left(t\right)-Y\left(t\right)\right)/2$ نوشت.
+
+به عنوان مثال دوم، یک سیستم \emph{پیوسته} را در نظر بگیرید که سینماتیک آن شامل پیکربندی‌های $x$ است که فضای پیکربندی $\configspace$ را تشکیل می‌دهند، و دینامیک آن با قانون قطعی مرتبه دوم زیر داده می‌شود:
+\begin{equation}
+\ddot{x}\left(t\right)=F\left(x\left(t\right),\dot{x}\left(t\right)\right),\label{eq:2ndOrderContinuousSystemLaw}
+\end{equation}
+ با استفاده از نمادگذاری فلوکسیون نیوتن که در آن نقطه‌ها نشان‌دهنده مشتقات زمانی هستند.
+مجدداً، می‌توان یک معاوضه‌ی نومولوژی-هستی‌شناسی انجام داد، به طوری که سینماتیک جدید متشکل از «حالت‌های» $\left(x,y\right)$ باشد که یک «فضای حالت» $\configspace\cartesianprod\configspace$ را می‌سازند، و دینامیک جدید شامل یک جاسازی مارکوفی داده‌شده توسط جفت معادلات مرتبه اول زیر باشد:
+\begin{equation}
+\begin{aligned}\dot{x}\left(t\right) & =y\left(t\right),\\
+\dot{y}\left(t\right) & =F\left(x\left(t\right),y\left(t\right)\right).
+\end{aligned}
+\label{eq:1stOrderMarkovianEmbeddingContinuous}
+\end{equation}
+ همانند قبل، این جاسازی مارکوفی دارای مجموعه‌ای نوظهور از تبدیلات است که می‌توانند آزادانه $x$ و $y$ را با هم ترکیب کنند مادامی که هیچ اطلاعاتی گم نشود. این مثال الگویی برای فرمول‌بندی هامیلتونی مکانیک نیوتنی است، که در آن $x$ نقش یک مختصه‌ی کانونیک، $y$ نقش یک تکانه کانونیک، و مجموعه تبدیلات ترکیب‌کننده $x$ و $y$ شامل مجموعه تبدیلات کانونیک می‌باشد.
+
+برای هر انتخاب مبدا $t_{0}$ برای مختصه‌ی زمانی، می‌توان یک تبدیل وارونِ زمانی \lr{(time-reversal)} را با جایگزینی زیر تعریف کرد:
+\begin{equation}
+t_{0}+t\mapsto t_{0}-t,\label{eq:TimeReversalTransf}
+\end{equation}
+ به طوری که انتقالات رو به جلو در زمان از $t_{0}$ تبدیل به انتقالات رو به عقب در زمان از $t_{0}$ شوند، و برعکس. برای سادگی، مبدا مختصه‌ی زمانی برابر با $t_{0}=0$ در نظر گرفته می‌شود. آنگاه از قاعده زنجیره‌ای نتیجه می‌شود که برای فرمول‌بندی مرتبه دومِ اصلیِ مدلِ پیوسته، تبدیلات وارونِ زمانی بر درجه آزادی $x\left(t\right)$ و مشتقات زمانی آن طبق قوانین زیر اثر می‌کنند:
+\begin{align}
+x\left(t\right) & \mapsto+x\left(-t\right),\nonumber \\
+\dot{x}\left(t\right) & \mapsto-\dot{x}\left(-t\right),\label{eq:ContinuousModelTimeReversalDof}\\
+\ddot{x}\left(t\right) & \mapsto+\ddot{x}\left(-t\right).\nonumber 
+\end{align}
+ بنابراین قانون مرتبه دومِ اصلی \eqref{eq:2ndOrderContinuousSystemLaw} تحت وارونِ زمانی ناورداست دقیقاً اگر:
+\begin{equation}
+F\left(x,-\dot{x}\right)=F\left(x,\dot{x}\right).\label{eq:2ndOrderContinuousTimeReversalInvariantLaw}
+\end{equation}
+
+برای جاسازی مارکوفی معادل، یک تبدیل وارونِ زمانی باید در عوض ملزم به گرفتن فرم زیر باشد:
+\begin{align}
+x\left(t\right) & \mapsto+x\left(-t\right),\nonumber \\
+\dot{x}\left(t\right) & \mapsto-\dot{x}\left(-t\right),\label{eq:1stOrderContinuousMarkovianEmbeddingTimeReversal}\\
+y\left(t\right) & \mapsto-y\left(-t\right),\nonumber \\
+\dot{y}\left(t\right) & \mapsto+\dot{y}\left(-t\right),\nonumber 
+\end{align}
+ که در آن $y\left(t\right)$ و $\dot{y}\left(t\right)$ در مقایسه با $x\left(t\right)$ و $\dot{x}\left(t\right)$ با علائم مخالف تبدیل می‌شوند.
+قوانین مارکوفی مرتبه اول سپس به صورت زیر تبدیل می‌شوند:
+\begin{align}
+\dot{x}\left(t\right)=y\left(t\right) & \mapsto-\dot{x}\left(t\right)=-y\left(t\right),\nonumber \\
+\dot{y}\left(t\right)=F\left(x\left(t\right),y\left(t\right)\right) & \mapsto\dot{y}\left(t\right)=F\left(x\left(t\right),-y\left(t\right)\right).\label{eq:1stOrderContinuousMarkovianEmbeddingTimeRevLaws}
+\end{align}
+ قوانین دینامیکی تحت وارونِ زمانی ناوردا هستند اگر:
+\begin{equation}
+F\left(x,-y\right)=F\left(x,y\right).\label{eq:1stOrderContinuousMarkovianEmbeddingTimeRevInvariantLaw}
+\end{equation}
+
+بسیاری از جاسازی‌های مارکوفی به طور طبیعی با استفاده از اعداد مختلط قابل بیان هستند. برای مثال حاضر، می‌توان تعریف کرد:
+\begin{equation}
+z\left(t\right)\defeq x\left(t\right)+iy\left(t\right)\label{eq:1stOrderContinuousMarkovianEmbeddingComplexVar}
+\end{equation}
+ و
+\begin{equation}
+\mathcal{F}\bigparens{z\left(t\right),z^{\conj}\left(t\right)}\defeq y\left(t\right)+iF\left(x\left(t\right),y\left(t\right)\right).\label{eq:1stOrderContinuousMarkovianEmbeddingComplexLaw}
+\end{equation}
+ آنگاه شخص به یک قانون مارکوفی مرتبه اولِ \emph{تکی} می‌رسد:
+\begin{equation}
+\dot{z}\left(t\right)=\mathcal{F}\bigparens{z\left(t\right),z^{\conj}\left(t\right)}.\label{eq:1stOrderContinuousMarkovianEmbeddingComplexEquations}
+\end{equation}
+ بنابراین شخص قانون دینامیکی را حتی ساده‌تر جلوه داده است، به بهای تیره‌تر کردن هستی‌شناسی و وارد کردن اعداد مختلطِ به‌ظاهر عجیب‌وغریب به داستان.
+
+این فرم مختلط از دینامیک، پیاده‌سازی تبدیلات وارونِ زمانی را به طور ویژه‌ای آسان می‌کند:
+\begin{equation}
+\begin{aligned}z\left(t\right) & \mapsto Kz\left(-t\right),\\
+\dot{z}\left(t\right) & \mapsto-K\dot{z}\left(-t\right).
+\end{aligned}
+\label{eq:1stOrderContinuousMarkovianEmbeddingComplexTimeRevFromOp}
+\end{equation}
+ به ویژه توجه کنید که چگونه قانون تبدیل برای $z\left(t\right)$ مستلزم \emph{هم} تغییری در آرگومان آن از $t$ به $-t$، و \emph{هم} اعمال عملگر مزدوج‌گیری مختلط $K$ است، همان‌طور که در ابتدا در \eqref{eq:DefComplexConjOperator} معرفی شد. در همین حال، قانون مارکوفی مرتبه اول \eqref{eq:1stOrderContinuousMarkovianEmbeddingComplexEquations} طبق رابطه زیر تبدیل می‌شود:
+\begin{equation}
+-K\dot{z}\left(-t\right)=\mathcal{F}\bigparens{z^{\conj}\left(-t\right),z\left(-t\right)}.\label{eq:1stOrderContinuousMarkovianEmbeddingComplexEquationsTimeRev}
+\end{equation}
+ بنابراین قانون دینامیکی تحت وارونِ زمانی ناورداست اگر:
+\begin{equation}
+-K\mathcal{F}\left(z^{\conj},z\right)=\mathcal{F}\left(z,z^{\conj}\right).\label{eq:1stOrderContinuousMarkovianEmbeddingComplexTimeRevInvariant}
+\end{equation}
+
+این ترفند جاسازی یک مدل غیرمارکوفی در یک مدل مارکوفی با فضای حالتی پیچیده‌تر، برای سیستم‌هایی با ویژگی‌های زیر قابل تعمیم است:
+\begin{itemize}
+\item تعداد دلخواهی درجه آزادی،
+\item دینامیک غیرمارکوفی با هر مرتبه‌ی بالا،
+\item و قوانین دینامیکی تصادفی.
+\end{itemize}
+فرمول‌بندی جاسازی‌شده-مارکوفی ممکن است دارای هستی‌شناسی تیره، کلاس بزرگی از تبدیلات عجیب‌وغریب متغیرهای فضای حالت، و ساختارهای ریاضی نامتعارف مانند اعداد مختلط باشد. اگر در ابتدا چنین فرمول‌بندی جاسازی‌شده-مارکوفی‌ای به شخصی داده می‌شد، او به راحتی می‌توانست بحث‌های بی‌پایانی را بر سر تفسیر فیزیکی صحیح آن تصور کند.
+
+\section{فرمول‌بندی استروکی-هسلوت\label{sec:The-Strocchi-Heslot-Formulation}}
+
+یک سیستم کوانتومی بسته با بردار حالت $\ket{\Psi\left(t\right)}$ که طبق \emph{معادله شرودینگر}
+\begin{equation}
+i\frac{\partial\ket{\Psi\left(t\right)}}{\partial t}=H\ket{\Psi\left(t\right)}\label{eq:SchroEq}
+\end{equation}
+ تحول می‌یابد (که به طور قراردادی با مشتق جزئی زمانی $\partial/\partial t$ نوشته می‌شود)، یک فرآیند مارکوفی با هستی‌شناسی تیره است، دارای کلاس بزرگی از تبدیلات عجیب (تبدیلات یکانیِ تغییرِ پایه) می‌باشد، و شامل اعداد مختلط است. با معکوس کردن منطق بخش قبلی، ممکن است به طور طبیعی این پرسش مطرح شود که آیا سیستم غیرمارکوفی‌ای با هستی‌شناسی شفاف‌تر وجود دارد که این فرمول‌بندی فضای هیلبرت صرفاً جاسازی مارکوفی آن باشد. به طرز قابل توجهی، پاسخ مثبت است. می‌توان نشانه‌هایی در این جهت را در آثاری مانند اثر گلیک و آدامی (۲۰۲۰)\nocite{GlickAdami:2020manmqm} یافت که نمونه‌های روشنی از رفتار غیرمارکوفی را برای سیستم‌های کوانتومیِ \emph{بسته} و نسبتاً سرراست نشان می‌دهند. (برای سیستم‌های \emph{باز}، مدت‌هاست شناخته شده که غیرمارکوفی بودن فراگیر است، چه در موارد کلاسیک و چه کوانتومی، که ناشی از اثرات بازخورد عادی از محیط می‌باشد.) نشانه مهم دیگر از جایگزینی فرمول‌بندی فضای هیلبرت با یک جایگزین ناشی می‌شود.
+
+یک بازنویسیِ جذاب اما کمتر شناخته‌شده از نظریه کوانتوم به عنوان یک سیستم هامیلتونی \emph{کلاسیک} از نوسانگرهای هارمونیک جفت‌شده وجود دارد. این بازنویسی برگرفته از دو مقاله زیباست؛ اولی توسط فرانکو استروکی (۱۹۶۶)\nocite{Strocchi:1966ccqm}، و دومی توسط آندره هسلوت (۱۹۸۵)\nocite{Heslot:1985qmaact}.\footnote{برای تعمیم به فضاهای هیلبرت بی‌نهایت-بعدی، نگاه کنید به کار اشتکار و شیلینگ (۱۹۹۹)\nocite{AshtekarSchilling:1999gfoqm}.}
+
+برای شروع، یک سیستم کوانتومی با فضای هیلبرت $N$-بعدی $\hilbspace$، بردار حالت $\ket{\Psi\left(t\right)}$، و هامیلتونی $H=H^{\adj}$ را در نظر بگیرید. باز هم، معادله شرودینگر چنین خوانده می‌شود
+\[
+i\frac{\partial\ket{\Psi\left(t\right)}}{\partial t}=H\ket{\Psi\left(t\right)}.
+\]
+ سپس، یک پایه یکامتعامد دلخواه انتخاب کنید\textemdash انتخابی که به‌زودی بازبینی خواهد شد\textemdash به طوری که بردار حالت $\ket{\Psi\left(t\right)}$ با ماتریس ستونیِ
+\begin{equation}
+\begin{pmatrix}\Psi_{1}\left(t\right)\\
+\vdots\\
+\Psi_{N}\left(t\right)
+\end{pmatrix},\label{eq:StateVectorAsColumnMatrix}
+\end{equation}
+ نمایش داده شود، و هامیلتونی $H$ با ماتریس مربعیِ
+\begin{equation}
+\begin{pmatrix}H_{11} & H_{12}\\
+H_{21} & \ddots\\
+ &  & H_{NN}
+\end{pmatrix}.\label{eq:HamiltonianAsSquareMatrix}
+\end{equation}
+ با نوشتن معادله شرودینگر برحسب درایه‌های فردی، خواهیم داشت
+\begin{equation}
+i\frac{d\Psi_{i}\left(t\right)}{dt}=\sum_{j=1}^{N}H_{ij}\Psi_{j}\left(t\right).\label{eq:SchroEqInComponents}
+\end{equation}
+ حال تمام درایه‌های فردی $\ket{\Psi\left(t\right)}$ و $H$ را به بخش‌های حقیقی و موهومی آن‌ها تجزیه کنید:\footnote{نرمال‌سازی $1/\sqrt{2}$ برای بازنویسی کروشه‌های پواسون برحسب متغیرهای مختلط مناسب است.}
+\begin{equation}
+\begin{aligned}\Psi_{i}\left(t\right) & =\frac{1}{\sqrt{2}}\left(q_{i}\left(t\right)+ip_{i}\left(t\right)\right),\\
+H_{ij} & =A_{ij}+iB_{ij},
+\end{aligned}
+\label{eq:StateVectorAndHamiltonianInComponents}
+\end{equation}
+ که در آن $H=H^{\adj}$ شرایط تقارن زیر را ایجاب می‌کند
+\begin{equation}
+\begin{aligned}A_{ij} & =A_{ji},\\
+B_{ij} & =-B_{ji}.
+\end{aligned}
+\label{eq:HamiltonianEntriesRealityConditions}
+\end{equation}
+
+در نتیجه معادله شرودینگر می‌شود
+\begin{equation}
+i\frac{d\left(q_{i}\left(t\right)+ip_{i}\left(t\right)\right)}{dt}=\sum_{j=1}^{N}\left(A_{ij}+iB_{ij}\right)\left(q_{j}\left(t\right)+ip_{j}\left(t\right)\right).\label{eq:SchroEqRealComponentsIntermed}
+\end{equation}
+ با شکستن این معادله به بخش‌های حقیقی و موهومی آن، و ساده‌سازی کامل، در نهایت به دستگاهی شامل $2N$ معادله هامیلتونی کلاسیکِ حرکت می‌رسیم:
+\begin{equation}
+\begin{aligned}\dot{q}_{i}\left(t\right) & =\frac{\partial H_{\textrm{SH}}}{\partial p_{i}},\\
+\dot{p}_{i}\left(t\right) & =-\frac{\partial H_{\textrm{SH}}}{\partial q_{i}}.
+\end{aligned}
+\label{eq:StrocchiHeslotHamiltonEqs}
+\end{equation}
+ در اینجا $H_{\textrm{SH}}$ هامیلتونیِ استروکی-هسلوت است، که صرفاً یک هامیلتونی کلاسیک است که به دلیل خطی بودنِ معادله شرودینگر، در نهایت فرمی آشکارا دوخطی پیدا می‌کند:
+\begin{equation}
+H_{\textrm{SH}}\defeq\sum_{k,l}\left(\frac{1}{2}A_{kl}p_{k}p_{l}+B_{kl}q_{k}p_{l}+\frac{1}{2}A_{kl}q_{k}q_{l}\right).\label{eq:StrocchiHeslotClassicalHamiltonian}
+\end{equation}
+
+بنابراین تکامل زمانی شرودینگر در فرمول‌بندی استروکی-هسلوت، با دینامیک یک سیستم از نوسانگرهای هارمونیک جفت‌شده \emph{کلاسیک} یکریخت است. تغییر پایه یکامتعامد در سمت فضای هیلبرت، آنگاه معادل با اجرای یک تبدیل کانونیک خطی در سمت استروکی-هسلوت است.
+
+علاوه بر این، تحت سرراست‌ترین مفهوم یک تبدیل وارون زمانی، داریم $q_{i}\left(t\right)\mapsto q_{i}\left(-t\right)$ و $p_{i}\mapsto-p_{i}\left(-t\right)$، با یک علامت منفی اضافی برای $p_{i}\left(t\right)$، دقیقاً همانند \eqref{eq:1stOrderContinuousMarkovianEmbeddingTimeReversal}. از این رو، هنگامی که $q_{i}\left(t\right)$ و $p_{i}\left(t\right)$ دوباره در مؤلفه‌های $\Psi_{i}\left(t\right)=\parens{1/\sqrt{2}}\left(q_{i}\left(t\right)+ip_{i}\left(t\right)\right)$ بردار حالت سیستم ترکیب می‌شوند، در قیاس با قانون تبدیل برای $z\left(t\right)$ در \eqref{eq:1stOrderContinuousMarkovianEmbeddingComplexTimeRevFromOp} دیده می‌شود که $\Psi_{i}\left(t\right)$ طبق قاعده زیر تبدیل می‌شود
+\begin{equation}
+\Psi_{i}\left(t\right)\mapsto K\Psi_{i}\left(-t\right).\label{eq:TimeReversalStateVectorComponents}
+\end{equation}
+ یعنی، $\Psi_{i}\left(t\right)$ \emph{هم} معکوس شدن آرگومان زمانی از $t$ به $-t$ را تجربه می‌کند، و \emph{همراه} با آن اعمال عملگر مزدوج‌گیری مختلط $K$ را. بنابراین فرمول‌بندی استروکی-هسلوت روشی زیبا ارائه می‌دهد برای اینکه ببینیم چرا بردارهای حالت از این قانون تبدیلِ عجیب‌به‌نظر پیروی می‌کنند.\footnote{اگر اجازه دهیم یک تبدیل کانونیک خطی بخشی از تبدیل وارون زمانی باشد، آنگاه $\Psi_{i}\left(t\right)$ در عوض به صورت $\Psi_{i}\left(t\right)\mapsto VK\Psi_{i}\left(-t\right)$ تبدیل می‌شود، که در آن $V$ یک ماتریس یکانی است. در واقع، این قانون تبدیلِ عمومی‌تر، کلی‌ترین قانون کتاب‌های درسی برای وارون زمانیِ یک بردار حالت است.}
+
+به عنوان یک انتخاب به‌ویژه جالب از پایه یکامتعامد، برگزیدن پایه ویژه انرژی معادل است با اجرای یک تبدیل کانونیک خطی به مجموعه مدهای نرمال، که برای آن‌ها نوسانگرها غیرجفت‌شده و مستقل هستند، با فرکانس‌های انفرادی متناسب با مقادیر ویژه هامیلتونی کوانتومی اصلی $H$. از لحاظ ریاضی، این چارچوب کانونیک مسلماً ساده‌ترین توصیف تکامل برای هر سیستم کوانتومی است\textemdash هرچه باشد، سیستم‌های اندکی ساده‌تر از مجموعه‌ای از نوسانگرهای هارمونیک کلاسیک غیرجفت‌شده وجود دارند.
+
+برخی تفاسیر نظریه کوانتوم تلاش می‌کنند فرمول‌بندی مارکوفی معمول آن را شیء‌انگاری کنند. برای چنین تفاسیری، بلافاصله روشن نیست که چرا فرمول‌بندی فضای هیلبرت باید، از نظر متافیزیکی، بر فرمول‌بندی استروکی-هسلوت ترجیح داده شود. اما اگر فرمول‌بندی استروکی-هسلوت شیء‌انگاری شود، آیا آنگاه دلالت بر این دارد که جهان صرفاً مجموعه‌ای از نوسانگرهای هارمونیک است؟ در آن صورت، چرا داشتن دامنه صفر\textemdash مثلاً برای یک \textquoteleft شاخه\textquoteright{} یا \textquoteleft جهان\textquoteright{} در برخی نسخه‌های نظریه کوانتوم اورتی\textemdash باید به معنای فقدان وجود فیزیکی در نظر گرفته شود؟ هرچه باشد، یک نوسانگر هارمونیک که نوسان نمی‌کند، همچنان وجود فیزیکی دارد. بنابراین خطرات تلاش برای ساختن یک هستی‌شناسی به‌طور مستقیم از یک ساختار صرفاً ریاضی دیده می‌شود، صرفاً به این دلیل که ساختارهای ریاضی فرمول‌بندی‌های با ظاهر متفاوت بسیاری دارند، و چه چیزی تعیین می‌کند که یک فرمول‌بندی بر دیگری ارجحیت دارد؟
+
+توجه کنید که برای یک سیستم کوانتومی با فضای هیلبرت $N$-بعدی، که در آن $N$ متناهی است، فرمول‌بندی متناظرِ استروکی-هسلوت دارای یک فضای حالتِ پیوسته نامتناهی با بعد $2N$ است. به‌ویژه، فضای حالت استروکی-هسلوت حتی برای ساده‌ترین سیستم کوانتومی ممکن نیز به‌صورت پیوسته نامتناهی است: یک کیوبیت، که $N=2$ دارد. از این رو، اگر فضای حالت استروکی-هسلوت بتواند به عنوان فضای حالتِ یک جای‌گذاری مارکوفی از یک سیستم غیرمارکوفیِ زیرین با فضای پیکربندی گسسته شامل تنها $N$ عنصر درک شود، آنگاه دینامیک آن سیستم زیرین علی‌القاعده به‌شدت غیرمارکوفی خواهد بود، بسیار فراتر از مرتبه دوم.
+
+\section{فرایندهای تصادفی تقسیم‌ناپذیر\label{sec:Indivisible-Stochastic-Processes}}
+
+یک فرایند تصادفی تقسیم‌ناپذیر، تعمیمی ساده از یک فرایند تصادفی غیرمارکوفی است. اصول موضوعه جدید، که به‌مراتب ساده‌تر از اصول موضوعه دیراک-فون نویمان هستند و شامل فضاهای هیلبرت یا حتی اعداد مختلط نمی‌شوند، ترکیبی از اجزای ثابت و امکانی (مشروط) هستند. اجزای ثابت، که در هر نمود دنیای واقعی یا اجرای مدل تقسیم‌ناپذیرِ داده‌شده یکسان هستند، عبارتند از:
+\begin{itemize}
+\item یک سینماتیک شامل فضای پیکربندی $\configspace$، و
+\item یک دینامیک شامل نگاشت‌های گذار $\mapping{\stochasticmatrix\left(t\from t_{0}\right)}{\configspace\cartesianprod\configspace}{\left[0,1\right]}$
+برای جفت‌زمان‌های $t,t_{0}$ که از مجموعه‌های شاخص مربوطه $\mathcal{T}$، موسوم به زمان‌های هدف، و $\mathcal{T}_{0}\subset\mathcal{T}$، موسوم به زمان‌های شرطی‌سازی، گرفته شده‌اند، جایی که هر نگاشت گذار $\stochasticmatrix\left(t\from t_{0}\right)$ احتمالات گذار شرطی مرتبه اولی که $t_{0}$ را به $t$ متصل می‌کنند، در بر دارد.
+\end{itemize}
+جزء امکانی، که نوعاً بین نمودهای دنیای واقعی یا اجراهای مدل متفاوت خواهد بود، عبارت است از:
+\begin{itemize}
+\item یک توزیع احتمال مستقل $\mapping{p\left(t\right)}{\configspace}{\left[0,1\right]}$
+برای زمان‌های $t$ در مجموعه زمان‌های هدف $\mathcal{T}$.
+\end{itemize}
+با برچسب‌گذاری پیکربندی‌های متمایز در $\configspace$ با شاخص $i$ یا $j$، قواعد استاندارد نظریه احتمال معمولی شامل قانون معمول احتمال کل است، که دلالت بر این دارد که یک قاعده حاشیه‌ای‌سازی \emph{خطی} وجود دارد که احتمالات مستقل $p_{j}\left(t_{0}\right)$ در زمان‌های شرطی‌سازی $t_{0}$ و احتمالات مستقل $p_{i}\left(t\right)$ در زمان‌های هدف $t$ را به هم متصل می‌کند:
+\begin{equation}
+p_{i}\left(t\right)=\sum_{j}\stochasticmatrix_{ij}\left(t\from t_{0}\right)p_{j}\left(t_{0}\right).\label{eq:LawOfTotalProbabilityFromTransitionMatrix}
+\end{equation}
+ در اینجا کمیت‌های دو-شاخصی $\stochasticmatrix_{ij}\left(t\from t_{0}\right)$ یک ماتریس گذار را تعریف می‌کنند، که یک ماتریس تصادفی (ستونی) است، بدین معنا که ماتریسی است که درایه‌های آن اعداد حقیقی نامنفی هستند و مجموع هر یک از ستون‌های آن برابر با ۱ است.
+
+تقسیم‌ناپذیری ایده‌ای ساده و به‌طور قابل‌توجهی جدید است. می‌توان آن را به عنوان \textquoteleft شکستِ تکرارپذیری\textquoteright{} در نظر گرفت. مبانی مفهومی تقسیم‌ناپذیری در نظریه کانال‌های کوانتومی (ولف، سیراک ۲۰۰۸)\nocite{WolfCirac:2008dqc} ریشه دارد، اما تنها در چند سال اخیر برای اولین بار در نظریه احتمال معمولی و فرایندهای تصادفی به کار گرفته شد (میلز، مودی ۲۰۲۱)\nocite{MilzModi:2021qspaqnp}.
+
+به‌طور خلاصه، برای یک فرایند تصادفی تقسیم‌ناپذیر، تمام زمان‌های هدف، زمان‌های شرطی‌سازیِ معتبر نیستند. یعنی، حتی اگر ماتریس‌های گذار $\stochasticmatrix\left(t\from t_{0}\right)$ و $\stochasticmatrix\left(t^{\prime}\from t_{0}\right)$ برای زمان‌های $t>t^{\prime}>t_{0}$ وجود داشته باشند، که در آن $t^{\prime}$ بین $t_{0}$ و $t$ قرار دارد، ممکن است چنین باشد که
+\begin{equation}
+\stochasticmatrix\left(t\from t_{0}\right)\ne\stochasticmatrix\left(t\from t^{\prime}\right)\stochasticmatrix\left(t^{\prime}\from t_{0}\right)\label{eq:Indivisibility}
+\end{equation}
+ برای تمام ماتریس‌های $\stochasticmatrix\left(t\from t^{\prime}\right)$ که شرایطِ تصادفی بودن را ارضا می‌کنند. نابرابری \eqref{eq:Indivisibility} تقسیم‌ناپذیری نامیده می‌شود.
+
+همان‌طور که برای مثال در کارهای گیلسپی (۱۹۹۸، ۲۰۰۰) \nocite{Gillespie:1998dtsoasp,Gillespie:2000nsp} تأکید شده است،
+یک فرایند تصادفی غیرمارکوفی سنتی دارای یک سلسله‌مراتب نامتناهی یا برج کولموگروف از احتمالات شرطی مرتبه اول، مرتبه دوم، مرتبه سوم و مراتب بالاتر است:
+\begin{equation}
+\begin{aligned} & p\left(i,t \mid j_{1},t_{1}\right),\\
+ & p\left(i,t \mid j_{1},t_{1};j_{2},t_{2}\right),\\
+ & p\left(i,t \mid j_{1},t_{1};j_{2},t_{2};j_{3},t_{3}\right).
+\end{aligned}
+\label{eq:NonMarkovianTowerConditionalProbabilities}
+\end{equation}
+از این برج احتمالات شرطی کولموگروف، به همراه احتمالات مستقل $p\left(i,t\right)$، می‌توان تمام احتمالات توأم دوطرفه، احتمالات توأم سه‌طرفه و غیره را ساخت.\footnote{برای مباحث آموزشی در نظریه فرایندهای تصادفی، نگاه کنید به روزنبلات (۱۹۶۲)، پارزن (۱۹۶۲)، دوب (۱۹۹۰)، یا راس (۱۹۹۵) \nocite{Rosenblatt:1962rp,Parzen:1962sp,Doob:1990sp,Ross:1995sp}.}
+
+یک فرایند تصادفی تقسیم‌ناپذیر، نماینده‌ی یک \emph{کلاس هم‌ارزی} کامل از فرایندهای تصادفی غیرمارکوفی با مرتبه دلخواه است که بر سر مجموعه تنک (sparse) احتمالات شرطی مرتبه اول، که در نگاشت‌های گذار $\stochasticmatrix\left(t \leftarrow t_{0}\right)$ کدگذاری شده‌اند، توافق دارند.
+هر یک از این فرایندهای تصادفی غیرمارکوفی در این کلاس هم‌ارزی، با قوانین فرایند تصادفی تقسیم‌ناپذیرِ داده شده سازگار است و یک «تحقق‌بخش غیرمارکوفی» \lr{(non-Markovian realizer) } نامیده می‌شود.\footnote{نویسنده از الکساندر میهان برای پیشنهاد این اصطلاح تشکر می‌کند.}
+در مقابل، یک فرایند مارکوفی مستلزم انجام این تقریب است که تمام احتمالات شرطی مرتبه دوم و بالاتر $p\left(i,t \mid j_{1},t_{1};j_{2},t_{2};\dots\right)$ ثابت و به لحاظ عددی برابر با احتمالات شرطی مرتبه اول باشند (مشروط به زمانی که به زمان هدف $t$ نزدیک‌تر است).
+
+برای برقراری هم‌ارزی بین فرایندهای تصادفی تقسیم‌ناپذیر و سیستم‌های کوانتومی، که «تناظر تصادفی-کوانتومی» نامیده می‌شود، لازم است جهتِ تصادفی-به-کوانتومیِ این هم‌ارزی و سپس جهتِ کوانتومی-به-تصادفی تعریف شود.
+
+برای جهت تصادفی-به-کوانتومی، با در نظر گرفتن هر فرایند تصادفی تقسیم‌ناپذیر با $N$ پیکربندی شروع می‌کنیم، و سپس یک زمان شرطی‌سازی (که بدون از دست رفتن کلیت مسأله، برابر با $0$ در نظر گرفته می‌شود) و همچنین یک زمان هدف $t$ را انتخاب می‌کنیم. سپس با داشتن ماتریس گذار $\stochasticmatrix\left(t \leftarrow 0\right)$، اقدام به «حل» شرط نامنفی بودن $\stochasticmatrix_{ij}\left(t \leftarrow 0\right)\geq0$ می‌کنیم. این کار با معرفی یک ماتریس «پتانسیل» غیریکتا $\dynop\left(t \leftarrow 0\right)$ انجام می‌شود که درایه‌های آن مجاز به داشتن مقادیر مختلط هستند، و طبق تساوی درایه-به-درایه‌ی زیر تعریف می‌شود:
+\begin{equation}
+\stochasticmatrix_{ij}\left(t \leftarrow 0\right)=\left|\dynop_{ij}\left(t \leftarrow 0\right)\right|^{2}.\label{eq:TransitionMatrixFroModSquarePotentialMatrix}
+\end{equation}
+از این واقعیت که $\stochasticmatrix\left(t \leftarrow 0\right)$ یک ماتریس تصادفی است (به طوری که جمع هر یک از ستون‌های آن برابر با ۱ است)، نتیجه می‌شود که ماتریس «پتانسیل» $\dynop\left(t \leftarrow 0\right)$ در قاعده جمع زیر صدق می‌کند:
+\begin{equation}
+\sum_{i}\left|\dynop\left(t \leftarrow 0\right)\right|^{2}=1.\label{eq:PotentialMatrixSumRule}
+\end{equation}
+
+اگر اتفاق بیفتد که ماتریس گذار $\stochasticmatrix\left(t\from0\right)$ یکاتصادفی (Unistochastic) باشد (هورن ۱۹۵۴؛ تامپسون ۱۹۸۹؛ نایلن، تام ۱۹۹۳)\nocite{Horn:1954dsmatdoarm,Thompson:1989uln,NylenTamUhlig:1993oteopsonhasm}،
+آنگاه می‌توان فرض کرد که $\dynop\left(t\from0\right)$ یک ماتریس یکانی $\timeevop\left(t\from0\right)$ است که در رابطه زیر صدق می‌کند:
+\begin{equation}
+\timeevop^{\adj}\left(t\from0\right)=\timeevop^{-1}\left(t\from0\right),\label{eq:TimeEvOpUnitary}
+\end{equation}
+و «عملگر تکامل زمانی» سیستم نامیده می‌شود.
+
+در غیر این صورت، می‌توان مجموعه‌ای از ماتریس‌های $N\times N$ به نام $\krausmatrix_{\beta}\left(t\from0\right)$ با $\beta=1,\dots,N$ تعریف کرد که هر کدام یک ستون از $\dynop\left(t\from0\right)$ را برمی‌دارند و در سایر درایه‌ها با صفر پر شده‌اند. یک تمرین ساده است که نشان دهیم ماتریس‌های $\krausmatrix_{\beta}\left(t\from0\right)$ عملگرهای کراوس \lr{(Kraus operators) } هستند، بدین معنی که در اتحاد کراوس صدق می‌کنند:
+\begin{equation}
+\sum_{\beta}\krausmatrix_{\beta}^{\adj}\left(t\from0\right)\krausmatrix_{\beta}\left(t\from0\right)=\idmatrix,\label{eq:KrausIdentity}
+\end{equation}
+که در آن $\idmatrix$ ماتریس همانی است، و همچنین نشان دهیم که ماتریس گذار $\stochasticmatrix\left(t\from0\right)$ دارای تجزیه کراوس زیر است:
+\begin{equation}
+\stochasticmatrix_{ij}\left(t\from0\right)=\sum_{\beta=1}^{N}\verts{\krausmatrix_{\beta,ij}\left(t\from0\right)}^{2}.\label{eq:TransitionMatrixFromKrausDecomposition}
+\end{equation}
+با استفاده از کاربرد قضیه اتساع اشتاین‌اسپرینگ\lr{ (Stinespring dilation theorem) } (اشتاین‌اسپرینگ ۱۹۵۵؛ باراندس ۲۰۲۵a، ۲۰۲۵b، ۲۰۲۳)\nocite{Stinespring:1955pfoc,Barandes:2025tsqc,Barandes:2025qsaisp,Barandes:2023tsqt} نتیجه می‌شود که با افزایش $N$ به $N^{\prime}$، که از بالا توسط $N^{3}$ محدود شده است، می‌توان ماتریس $N\times N$ پتانسیل $\dynop\left(t\from0\right)$ را با یک ماتریس یکانی $N^{\prime}\times N^{\prime}$ به نام $\timeevop\left(t\from0\right)$ جایگزین کرد که می‌تواند به عنوان عملگر تکامل زمانی سیستم عمل کند. این استدلال توضیحی نوآورانه و مجاب‌کننده بر مبنای اصول اولیه ارائه می‌دهد که چرا تکامل زمانی یکانی نقشی چنین ویژه در نظریه کوانتوم ایفا می‌کند.
+
+نکته حیاتی این است که برای $N>2$، یک ماتریس یکاتصادفی $N\times N$ به طور کلی اورتواستوکاستیک (Orthostochastic) نخواهد بود. یک ماتریس اورتواستوکاستیک، ماتریسی یکاتصادفی است که ماتریس یکانی زیرین آن را می‌توان حقیقی-مقدار و متعامد در نظر گرفت. بنابراین، برای بهره‌برداری از جهتِ تصادفی-به-کوانتومیِ این تناظر، با تکامل زمانی یکانی، معرفی اعداد مختلط یا یک ساختار جبری یکریخت با آن‌ها ضروری خواهد بود. البته، از دیدگاه تناظر تصادفی-کوانتومی، فضاهای هیلبرت در هر صورت صرفاً برساخته‌های ریاضی \lr{(mathematical fictions)} هستند، بنابراین معرفی اعداد مختلط برای تعریف تصویر فضای هیلبرت، اقدامی بی‌ضرر است. اعداد مختلط همچنین مزایا و منابع مهمی را فراهم می‌کنند، مانند قضیه طیفی، مولدهای تقارن، هامیلتونی‌ها، مقادیر ویژه انرژی، حالت‌های مانا، معادله شرودینگر، اصل عدم قطعیت، اسپینورها و موارد دیگر.
+
+همان‌طور که مشخص است، برای اجرای تبدیلات وارون زمانی، دوباره نیاز به معرفی عملگر مزدوج‌گیری مختلط $K$ است، همان‌طور که در \eqref{eq:DefComplexConjOperator} تعریف شد، که با $i$ و $iK$ ترکیب می‌شود تا شبه-کواترنیون‌ها را تشکیل دهد، مشابه \eqref{eq:ElementaryPseudoQuaternionsAlgebra}. بنابراین به یک معنا، فضاهای هیلبرتِ سیستم‌های کوانتومی در واقع بر روی شبه-کواترنیون‌ها تعریف می‌شوند، نه صرفاً بر روی اعداد مختلط، اگرچه مشاهده‌پذیرها معمولاً فقط از اعداد مختلط ساخته می‌شوند.
+
+پس از کدگذاری احتمالات اولیه $p_{i}\left(0\right)$ به عنوان درایه‌های قطری یک ماتریس چگالی اولیه $\densitymatrix\left(0\right)$ که در سایر جاها با صفر پر شده است، می‌توان اقدام به تعریف ماتریس چگالی در حال تحول زمانی $\densitymatrix\left(t\right)\defeq\timeevop\left(t\from0\right)\densitymatrix\left(0\right)\timeevop^{\adj}\left(t\from0\right)$ نمود، و همچنین مابقی تصویر فضای هیلبرت را ساخت، همان‌طور که در کارهای دیگر (باراندس ۲۰۲۵)\nocite{Barandes:2025tsqc} به تفصیل آمده است. اگر ماتریس چگالی دارای رتبه یک باشد، آنگاه یک بردار حالت یا تابع موج $N\times1$ به صورت $\ket{\Psi\left(t\right)}=\timeevop\left(t\from0\right)\ket{\Psi\left(0\right)}$ وجود دارد که یک تجزیه ضرب خارجی ساده به دست می‌دهد:
+\begin{equation}
+\densitymatrix\left(t\right)=\ket{\Psi\left(t\right)}\bra{\Psi\left(t\right)},\label{eq:RankOneDensityMatrixFromStateVector}
+\end{equation}
+که در آن $\bra{\Psi\left(t\right)}\defeq\ket{\Psi\left(t\right)}^{\adj}$.
+با فرض اینکه تکامل زمانی یکانی به عنوان تابعی از $t$ به اندازه کافی هموار باشد، تابع موج در معادله شرودینگر \eqref{eq:SchroEq} صدق می‌کند:
+\[
+i\frac{\partial\ket{\Psi\left(t\right)}}{\partial t}=H\left(t\right)\ket{\Psi\left(t\right)},
+\]
+برای یک هامیلتونی خودالحاقی $H\left(t\right)=H^{\adj}\left(t\right)$ که در تطابق با قضیه استون (استون ۱۹۳۰)\nocite{Stone:1930ltihs} بر حسب عملگر تکامل زمانی $\timeevop\left(t\from0\right)$ و طبق رابطه زیر تعریف شده است:
+\begin{equation}
+H\left(t\right)\defeq i\frac{\partial\timeevop\left(t\from0\right)}{\partial t}\timeevop^{\adj}\left(t\from0\right).\label{eq:DefQuantumHamiltonian}
+\end{equation}
+
+بنابراین، فرمالیسم فضای هیلبرت با تحول زمانی یکانی، یک جاسازی مارکوفی «تقسیم‌پذیر» از فرایند تصادفی تقسیم‌ناپذیر اولیه را به دست می‌دهد که دارای یک معادله دیفرانسیل مرتبه اول برای تحول زمانی است. علاوه بر این، خطی بودن معادله شرودینگر اکنون توضیحی روشن دارد: همان‌طور که می‌توان بررسی کرد، این ویژگی در نهایت ناشی از خطی بودن قانون احتمال کل \eqref{eq:LawOfTotalProbabilityFromTransitionMatrix} است که توزیع‌های احتمال مستقل را از طریق ماتریس گذار به هم متصل می‌کند.
+
+از منظر این فرمول‌بندی، دیده می‌شود که توابع موج و معادله شرودینگر قطعات ثانویه‌ای از ریاضیات مشتق‌شده هستند و نه اثاثیه هستی‌شناختی اولیه سیستم‌های کوانتومی. به طور خاص، توابع موج، مانند اتر نوربر یا پیپ مشهور ماگریت (ماگریت ۱۹۲۹)\nocite{Magritte:1929ltdittoi}، فیزیکی یا اونتیک (هستی‌شناختی) نیستند. توابع موج حتی کاملاً معرفتی (epistemic) هم نیستند، بلکه ترکیبی از اطلاعات معرفتی و قانونی (nomological) را کدگذاری می‌کنند، بنابراین طبق چارچوب «مدل‌های هستی‌شناختی» هاریگان-اسپکنس (هاریگان، اسپکنس ۲۰۱۰)\nocite{HarriganSpekkens:2010eievqs} به خوبی طبقه‌بندی نمی‌شوند.
+
+برای برقراری جهت کوانتومی-به-تصادفی در تناظر تصادفی-کوانتومی، با یک سیستم کوانتومی با تحول یکانی و فضای هیلبرت $N$-بعدی $\hilbspace$ شروع می‌کنیم. پس از انتخاب یک پایه متعامد نرمال مناسب (که \emph{همچنین} گامی است که برای تعریف فرمول‌بندی انتگرال مسیر استفاده می‌شود)، اقدام به تعریف یک فرایند تصادفی تقسیم‌ناپذیر از طریق معرفی یک ماتریس گذار آشکارا یکاتصادفی $\stochasticmatrix\left(t\from0\right)$ طبق قاعده زیر می‌کنیم:
+\begin{equation}
+\stochasticmatrix_{ij}\defeq\verts{\timeevop_{ij}\left(t\from0\right)}^{2}.\label{eq:UnistochasticTransitionMatrixFromModSqTimeEvOp}
+\end{equation}
+
+ممکن است در ابتدا این نگرانی پیش بیاید که این فرمول اطلاعات فاز را از $\timeevop\left(t\from0\right)$ پاک می‌کند، مانند معادله \eqref{eq:ModGeneralComplexNumberPolar}. با این حال، تا زمانی که به یاد داشته باشیم تمام نتایج تجربی از فرایندهای اندازه‌گیری حاصل می‌شوند و دقت کنیم که دستگاه‌های اندازه‌گیری و محیط‌ها را در مدل‌های سیستم‌های کوانتومی بگنجانیم، این اطلاعات فاز اهمیتی نخواهد داشت. اگر، فرضاً، یک دستگاه اندازه‌گیری به درستی به عنوان زیرسیستمی از فرایند تصادفی تقسیم‌ناپذیر کلی در نظر گرفته شود، و پایه متعامد نرمالِ انتخاب شده برای فضای هیلبرت سیستم کلی به درستی متغیرهای عقربه‌ای (pointer variables) دستگاه اندازه‌گیری را تسخیر کند، آنگاه طبق ساختار، دینامیکِ فرایند تصادفی تقسیم‌ناپذیرِ فراگیر، دستگاه اندازه‌گیری را به پیکربندی‌های بازخوانی صحیح آن با احتمالات نتیجه اندازه‌گیری صحیح، مطابق با قاعده بورن، تحویل خواهد داد. نگهداری اطلاعات فاز در $\timeevop\left(t\from0\right)$ تنها در صورتی ضروری است که بخواهیم به دلایل سادگی و راحتی ریاضی، و مطابق با اصول متعارف دیراک-فون نویمان، دستگاه اندازه‌گیری را از سیستم \emph{حذف} کنیم. بررسی دقیق فرایند اندازه‌گیری در این چارچوب در کار دیگری (باراندس ۲۰۲۵)\nocite{Barandes:2025tsqc} پوشش داده شده است.
+
+بنابراین به یک تناظر تصادفی-کوانتومی جامع می‌رسیم، که بر اساس آن فرمالیسم فضای هیلبرت نوعی جاسازی مارکوفی است که به عنوان شکلی از «مکانیک تحلیلی» برای سیستم‌های تصادفی به شدت غیرمارکوفی عمل می‌کند و منجر به یک معادله دیفرانسیل مؤثر مرتبه اول و «تقسیم‌پذیر» می‌شود. توجه به این نکته مهم است که این تناظر در هر دو جهت چند-به-یک است، درست همان‌طور که سیستم‌های مکانیک کلاسیک مبتنی بر معادلات دیفرانسیل مرتبه دوم دارای تناظر چند-به-یک با فرمالیسم فضای فاز هامیلتونی مرتبه اول هستند. مانند هر شکل دیگری از مکانیک تحلیلی، فرمالیسم فضای هیلبرت مجموعه قدرتمندی از ابزارهای ریاضی را برای مشخص کردن قوانین میکروفیزیکی به روشی سیستماتیک، برای مطالعه تقارن‌های دینامیکی، و برای محاسبه پیش‌بینی‌ها فراهم می‌کند.
+
+\section{نتیجه‌گیری\label{sec:Conclusion}}
+
+برای خلاصه کردن استدلال‌های این مقاله، می‌توان یک سیستم کوانتومی فضای هیلبرت را به عنوان یک جاسازی مارکوفی برای یک فرایند تصادفی تقسیم‌ناپذیر در نظر گرفت، که نماینده یک کلاس هم‌ارزی از فرایندهای تصادفی غیرمارکوفی با مرتبه دلخواه بالا است که هر کدام یک تحقق‌بخش غیرمارکوفی نامیده می‌شوند. یک فرایند تصادفی تقسیم‌ناپذیر دارای هستی‌شناسی شبه‌کلاسیک است و با استفاده از نظریه احتمال معمولی توصیف می‌شود، بدون اینکه اعداد مختلط به صورت بنیادی ظاهر شوند. اعداد مختلط تنها به عنوان بخشی از بازنویسی یک فرایند تصادفی تقسیم‌ناپذیر در تصویر فضای هیلبرت با تکامل زمانی یکانی ضروری هستند.
+
+این ادعا که هر سیستم کوانتومی در واقع یک فرایند تصادفی تقسیم‌ناپذیر در لباسی مبدل است، منجر به تعبیر جدیدی از نظریه کوانتوم می‌شود که به طور طبیعی «تعبیر تقسیم‌ناپذیر» یا «نظریه کوانتوم تقسیم‌ناپذیر» نامیده می‌شود. نظریه کوانتوم تقسیم‌ناپذیر بر اصول موضوعه ساده‌تری نسبت به نظریه کوانتوم کتاب‌های درسی مبتنی است، برهم‌نهی را به عنوان یک واقعیت عینی از اشیای فیزیکی که همزمان در چندین پیکربندی هستند کنار می‌گذارد، به احتمال زیاد از مسأله اندازه‌گیری رنج نمی‌برد، توابع موج را از داشتن جایگاه فیزیکی یا هستی‌شناختی مستقیم تنزل می‌دهد، و به طور کلی بسیاری از صحبت‌های عجیب و غریب درباره پدیده‌های کوانتومی را فرو می‌نشاند. به یک معنا، نظریه کوانتوم تقسیم‌ناپذیر یک «نظریه متغیرهای نهان» است که در آن پیکربندی‌ها نقش متغیرهای نهان را ایفا می‌کنند، اگرچه، بدیهی است که این پیکربندی‌ها همان چیزهایی هستند که واقعاً در آزمایش‌ها دیده می‌شوند، و آن‌ها \emph{جایگزین} توابع موج به عنوان اجزای هستی‌شناسی می‌شوند نه اینکه آن‌ها را \emph{تکمیل} کنند. در نهایت، همان‌طور که در جای دیگری استدلال شده است (باراندس ۲۰۲۴)\nocite{Barandes:2024npfaclfoqt}، می‌توان یک نظریه میکروفیزیکی معقول از تأثیرات علّی معرفی کرد که بر اساس آن نظریه کوانتوم تقسیم‌ناپذیر می‌تواند به عنوان یک نظریه علّی موضعی در نظر گرفته شود.
+
+\nocite{*}
+\bibliography{refrences}
+
+\end{document}
