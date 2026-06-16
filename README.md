@@ -6,7 +6,7 @@
 - [ ] Exact research on the theory of the blackbody thermal radiation
 
 ## Quantum Mechanics
-- [x] Why Complex Number in Quantum Theory?
+- [x] [Why Complex Number in Quantum Theory?](https://github.com/XDMustafa/Translated-Articles/tree/main/Why%20Complex%20Number%20in%20Quantum%20Theory%3F)
 - [x] Can Quantum-Mechanical Description of Physical Reality Be Considered Complete?
 - [x] Heisenberg, Uncertainty and the Quantum Revolution
-- [x] [Young’s double-slit interference experiment with electrons](https://github.com/XDMustafa/Translated-Articles/blob/main/Young%E2%80%99s%20double-slit%20interference%20experiment%20with%20electrons/Young%E2%80%99s%20double-slit%20interference%20experiment%20with%20electrons.pdf) [Orginal Paper](https://pubs.aip.org/aapt/ajp/article-abstract/75/11/1053/984122/Young-s-double-slit-interference-experiment-with?redirectedFrom=fulltext)
+- [x] [Young’s double-slit interference experiment with electrons](https://github.com/XDMustafa/Translated-Articles/blob/main/Young%E2%80%99s%20double-slit%20interference%20experiment%20with%20electrons/Young%E2%80%99s%20double-slit%20interference%20experiment%20with%20electrons.pdf) [(Orginal Paper)](https://pubs.aip.org/aapt/ajp/article-abstract/75/11/1053/984122/Young-s-double-slit-interference-experiment-with?redirectedFrom=fulltext)
