@@ -3,7 +3,7 @@
 <img width="2391" height="1407" alt="main title" src="https://github.com/user-attachments/assets/5e19f000-6352-4cb1-a083-1f769495d616" />
 
 ## Thermodynamic
-- [ ] Exact research on the theory of the blackbody thermal radiation
+- [ ] [Exact research on the theory of the blackbody thermal radiation](https://github.com/XDMustafa/Translated-Articles/tree/main/Exact%20research%20on%20the%20theory%20of%20the%20blackbody%20thermal%20radiation)
 > After studying the normalized Planck equation in depth, a brand-new type of spectrum curves of blackbody thermal radiation is given. Two important parameters of the new type curves, namely relative width RWη and symmetric factor RSFη, are defined. The paper points out that the experimental verification of the parameters has three significant applications: (1) Giving a method to measure temperature by detecting the radiation wavelength. (2) Determining the blackbody grade. (3) The temperature obtained from the law of the blackbody thermal radiation can be used as a criterion.
 
 ## Quantum Mechanics
